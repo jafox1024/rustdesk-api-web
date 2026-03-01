@@ -1,11 +1,10 @@
 <template>
-  <el-icon class="ex-icon" @click="expandOrFoldSlider">
+  <el-icon class="ex-icon h-full flex items-center mr-4 ml-4 text-2xl cursor-pointer text-text-primary transition-all duration-300 hover:text-primary hover:scale-110" @click="expandOrFoldSlider">
     <el-icon-expand v-if="setting.sideIsCollapse"></el-icon-expand>
     <el-icon-fold v-else></el-icon-fold>
   </el-icon>
-  <div class="header-logo">
-    <img :src="setting.logo" alt="" class="logo">
-    <div class="title">{{setting.title}}</div>
+  <div class="header-logo flex h-full items-center mr-auto">
+    <div class="title block text-lg font-semibold text-text-primary">{{setting.title}}</div>
   </div>
   <Setting></Setting>
 </template>
@@ -39,34 +38,4 @@
 </script>
 
 <style scoped lang="scss">
-  .ex-icon {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  .header-logo {
-    display: flex;
-    height: 100%;
-    align-items: center;
-
-    .title {
-      display: block;
-      margin-left: 10px;
-    }
-
-    .logo {
-      display: block;
-      width: 30px;
-      height: 30px;
-    }
-  }
-
-
-</style>
-<style lang="scss">
-
 </style>

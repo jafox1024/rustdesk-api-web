@@ -1,9 +1,31 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
 import { getToken, removeToken } from '@/utils/auth'
 import { useUserStore } from '@/store/user'
 import { pinia } from '@/store'
 import { useAppStore } from '@/store/app'
+import message from '@/utils/message'
+
+// 请求计数
+let requestCount = 0
+
+// 显示加载状态
+const showLoading = () => {
+  const appStore = useAppStore(pinia)
+  requestCount++
+  if (requestCount > 0) {
+    appStore.setLoading(true)
+  }
+}
+
+// 隐藏加载状态
+const hideLoading = () => {
+  const appStore = useAppStore(pinia)
+  requestCount--
+  if (requestCount <= 0) {
+    requestCount = 0
+    appStore.setLoading(false)
+  }
+}
 
 // create an axios instance
 const service = axios.create({
@@ -32,9 +54,14 @@ service.interceptors.request.use(
       config.headers['Accept-Language'] = lang
     }
 
+    // 显示加载状态
+    showLoading()
+
     return config
   },
   error => {
+    // 隐藏加载状态
+    hideLoading()
     // do something with request error
     return Promise.reject(error)
   },
@@ -53,6 +80,9 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    // 隐藏加载状态
+    hideLoading()
+    
     const res = response.data
 
     // for the endpoint /login-options
@@ -63,11 +93,7 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 0) {
-      ElMessage({
-        message: res.message || 'error',
-        type: 'error',
-        duration: 5 * 1000,
-      })
+      message.error(res.message || 'error')
 
       if (res.code === 403) {
         removeToken()
@@ -79,15 +105,14 @@ service.interceptors.response.use(
     }
   },
   error => {
+    // 隐藏加载状态
+    hideLoading()
+    
     if (error.code === 'ECONNABORTED'
       && error.message.indexOf('timeout') > -1) {
       error.message = 'Connection Time Out!'
     }
-    ElMessage({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000,
-    })
+    message.error(error.message)
     return Promise.reject(error)
   },
 )

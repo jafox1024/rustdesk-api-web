@@ -547,5 +547,23 @@
   },
   "Remark": {
     "One": "备注"
+  },
+  "Loading": {
+    "One": "加载中..."
+  },
+  "OperationFailed": {
+    "One": "操作失败"
+  },
+  "Reset": {
+    "One": "重置"
+  },
+  "Connection Time Out": {
+    "One": "连接超时"
+  },
+  "CloseAll": {
+    "One": "关闭全部"
+  },
+  "CloseOther": {
+    "One": "关闭其他"
   }
 }
