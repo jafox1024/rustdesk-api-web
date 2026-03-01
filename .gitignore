@@ -17,3 +17,6 @@ yarn-error.log*
 *.local
 
 yarn.lock
+
+# Trae IDE files
+.trae/
